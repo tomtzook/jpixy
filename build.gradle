@@ -1,0 +1,53 @@
+import org.gradle.internal.jvm.Jvm
+
+plugins {
+	id 'c'
+	id 'java-library'
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+}
+
+jar {
+    archiveBaseName.set('pixy')
+
+    archiveFileName.set("${archiveBaseName.get()}.${archiveExtension.get()}")
+    destinationDirectory.set(project.buildDir)
+}
+
+model {
+    platforms {
+        x64 {
+            architecture "x64"
+        }
+    }
+
+    components {
+        jni(NativeLibrarySpec) {
+            sources {
+                c {
+                    source {
+                        srcDir "src/main/jni"
+                        include "**/*.c"
+                    }
+                }
+            }
+
+            binaries.all {
+                cCompiler.args '-I', "${Jvm.current().javaHome}/include"
+                cCompiler.args "-I${project.file('libpixy/pixy.h')}"
+                if (targetPlatform.operatingSystem.linux) {
+                    cCompiler.args '-I', "${Jvm.current().javaHome}/include/linux"
+                } else if (targetPlatform.operatingSystem.windows) {
+                    cCompiler.args "-I${Jvm.current().javaHome}/include/win32"
+                }
+            }
+        }
+    }
+}
