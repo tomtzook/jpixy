@@ -27,4 +27,9 @@ public class Color {
     public int getBlue() {
         return mBlue;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%d,%d,%d", mRed, mGreen, mBlue);
+    }
 }

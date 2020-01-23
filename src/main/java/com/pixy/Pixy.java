@@ -46,7 +46,7 @@ public class Pixy implements AutoCloseable {
         return new Version(result[0], result[1], result[2]);
     }
 
-    public boolean areBlocksNew() {
+    public boolean hasNewBlocks() {
         int result = PixyJni.areBlocksNew();
         return result == BLOCKS_ARE_NEW;
     }
@@ -67,5 +67,10 @@ public class Pixy implements AutoCloseable {
     @Override
     public void close() {
         PixyJni.close();
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Version: %s, HasNewBlocks: %b", getFirmwareVersion(), hasNewBlocks());
     }
 }

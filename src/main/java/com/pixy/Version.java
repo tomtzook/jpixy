@@ -23,4 +23,9 @@ public class Version {
     public int getBuild() {
         return mBuild;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%d.%d.%d", mMajor, mMinor, mBuild);
+    }
 }
