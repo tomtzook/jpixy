@@ -31,7 +31,7 @@ public enum PixyResult {
             return SUCCESS;
         }
 
-        return fromErrorCode(-result);
+        return fromErrorCode(result);
     }
 
     public static PixyResult fromErrorCode(int errorCode) {
