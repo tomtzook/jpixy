@@ -13,15 +13,20 @@ public class Pixy implements AutoCloseable {
     public static final int MAX_Y = 199;
 
     private static final int BLOCKS_ARE_NEW = 1;
+    private static final int DEFAULT_BLOCK_DATA_CACHE_SIZE = 10;
 
     private final PixyLed mLed;
     private final PixyRcs mServo;
     private final PixyCamera mCamera;
 
+    private int[][] mBlockDataCache;
+
     private Pixy(PixyLed led, PixyRcs servo, PixyCamera camera) {
         mLed = led;
         mServo = servo;
         mCamera = camera;
+
+        mBlockDataCache = new int[DEFAULT_BLOCK_DATA_CACHE_SIZE][Block.DATA_SIZE];
     }
 
     Pixy() {
@@ -52,13 +57,16 @@ public class Pixy implements AutoCloseable {
     }
 
     public Collection<Block> getBlocks(int maxBlocks) {
-        int[][] blockData = new int[maxBlocks][Block.DATA_SIZE];
-        int result = PixyJni.getBlocks(maxBlocks, blockData);
+        if (maxBlocks > mBlockDataCache.length) {
+            mBlockDataCache = new int[maxBlocks][Block.DATA_SIZE];
+        }
+
+        int result = PixyJni.getBlocks(maxBlocks, mBlockDataCache);
         PixyResult.fromReturnCode(result).throwIfError();
 
         Collection<Block> blocks = new ArrayList<>(result);
         for (int i = 0; i < result; i++) {
-            blocks.add(Block.fromIntArray(blockData[i]));
+            blocks.add(Block.fromIntArray(mBlockDataCache[i]));
         }
 
         return blocks;
