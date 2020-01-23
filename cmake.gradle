@@ -1,0 +1,25 @@
+
+def BUILD_DIR = new File(project.buildDir, 'cmake')
+def CMAKE_FILE = project.file('src/CMakeLists.txt')
+
+task deleteBuildDirectory(type: Delete) {
+    delete BUILD_DIR.absolutePath
+}
+
+task createBuildDirectory(type: Exec, dependsOn: deleteBuildDirectory) {
+    commandLine 'mkdir', BUILD_DIR.absolutePath
+}
+
+task runCmake(type: Exec, dependsOn: createBuildDirectory) {
+    workingDir BUILD_DIR.absolutePath
+    commandLine 'cmake', CMAKE_FILE.parentFile.absolutePath
+}
+
+task runMake(type: Exec, dependsOn: runCmake) {
+    workingDir BUILD_DIR.absolutePath
+    commandLine 'make'
+}
+
+task buildNatives {
+    dependsOn tasks.runMake
+}
