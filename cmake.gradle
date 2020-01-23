@@ -1,4 +1,18 @@
 
+def getToolchainFile() {
+    if (project.hasProperty('TOOLCHAIN')) {
+        return "-DCMAKE_TOOLCHAIN_FILE=${rootProject.file(project.property('TOOLCHAIN'))}"
+    }
+    return null
+}
+
+def getAdditionalProperties() {
+    if (project.ext.has('CMAKE_PROPERTIES')) {
+        return (String) project.ext.get('CMAKE_PROPERTIES')
+    }
+    return null
+}
+
 def BUILD_DIR = new File(project.buildDir, 'cmake')
 def CMAKE_FILE = project.file('src/CMakeLists.txt')
 
@@ -12,7 +26,22 @@ task createBuildDirectory(type: Exec, dependsOn: deleteBuildDirectory) {
 
 task runCmake(type: Exec, dependsOn: createBuildDirectory) {
     workingDir BUILD_DIR.absolutePath
-    commandLine 'cmake', CMAKE_FILE.parentFile.absolutePath
+
+    def cmd = ['cmake']
+
+    def toolchainFile = getToolchainFile()
+    if (toolchainFile != null) {
+        cmd.add toolchainFile
+    }
+
+    def additionalProperties = getAdditionalProperties()
+    if (additionalProperties != null) {
+        cmd.add additionalProperties
+    }
+
+    cmd.add CMAKE_FILE.parentFile.absolutePath
+
+    commandLine cmd
 }
 
 task runMake(type: Exec, dependsOn: runCmake) {
