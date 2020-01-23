@@ -47,7 +47,7 @@ public class Pixy implements AutoCloseable {
 
     public Version getFirmwareVersion() {
         int[] result = PixyJni.getFirmwareVersion();
-        PixyResult.fromReturnCode(result[0]).throwIfError();
+        PixyResult.throwIfError(result[0]);
         return new Version(result[0], result[1], result[2]);
     }
 
@@ -62,7 +62,7 @@ public class Pixy implements AutoCloseable {
         }
 
         int result = PixyJni.getBlocks(maxBlocks, mBlockDataCache);
-        PixyResult.fromReturnCode(result).throwIfError();
+        PixyResult.throwIfError(result);
 
         Collection<Block> blocks = new ArrayList<>(result);
         for (int i = 0; i < result; i++) {

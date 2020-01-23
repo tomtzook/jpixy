@@ -13,7 +13,7 @@ public class PixyRcs {
 
     public int getPosition(int channel) {
         int result = PixyJni.rcsGetPosition(channel);
-        PixyResult.fromReturnCode(result).throwIfError();
+        PixyResult.throwIfError(result);
         return result;
     }
 
@@ -21,13 +21,13 @@ public class PixyRcs {
         Preconditions.throwIfNotConstrained(position, MIN_POS, MAX_POS);
 
         int result = PixyJni.rcsSetPosition(channel, position);
-        PixyResult.fromReturnCode(result).throwIfError();
+        PixyResult.throwIfError(result);
     }
 
     public void setFrequency(int frequency) {
         Preconditions.throwIfNotConstrained(frequency, MIN_FREQUENCY_HZ, MAX_FREQUENCY_HZ);
 
         int result = PixyJni.rcsSetFrequency(frequency);
-        PixyResult.fromReturnCode(result).throwIfError();
+        PixyResult.throwIfError(result);
     }
 }

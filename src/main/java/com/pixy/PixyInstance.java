@@ -9,7 +9,7 @@ public class PixyInstance {
             synchronized (PixyInstance.class) {
                 if (sInstance == null) {
                     int result = PixyJni.init();
-                    PixyResult.fromReturnCode(result).throwIfError();
+                    PixyResult.throwIfError(result);
 
                     sInstance = new Pixy();
                 }
