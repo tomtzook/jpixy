@@ -17,9 +17,6 @@ find_package(Boost 1.49 COMPONENTS thread system chrono REQUIRED)
 target_link_libraries(pixyjni ${Boost_LIBRARIES})
 target_link_libraries(pixyjni ${LIBUSB_1_LIBRARY})
 
-file(STRINGS "../cmake/VERSION" LIBPIXY_VERSION)
-add_definitions(-D__LIBPIXY_VERSION__="${LIBPIXY_VERSION}")
-
 include_directories(
         ${CMAKE_CURRENT_SOURCE_DIR}/../libpixy
         ${Boost_INCLUDE_DIR}
