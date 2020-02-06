@@ -5,7 +5,7 @@ Java port for Pixy
 The _java_ part is built using _gradle_, while the native part is built with _cmake_. To build for the current system, simply run `./gradlew`/`gradlew.bat clean build`, which will build the native part as well. Outputs can be found under `build` and `build/cmake`.
 
 ### Custom Toolchain
-For using a custom toolchain to compile the native part, run _gradle_ with `-PTOOLCHAIN_FILE={path/to/cmake/toolchain/file}`. The _cmake_ toolchain file must define settings for the wanted toolchain. This can be useful for cross compilation.
+For using a custom toolchain to compile the native part, run _gradle_ with `-PTOOLCHAIN={path/to/cmake/toolchain/file}`. The _cmake_ toolchain file must define settings for the wanted toolchain. This can be useful for cross compilation.
 
 ## Usage
 
