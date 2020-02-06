@@ -41,31 +41,29 @@ JNIEXPORT jint JNICALL Java_com_pixy_PixyJni_getBlocks
             arrayData[5] = block.height;
             arrayData[6] = block.angle;
 
-            env->ReleasePrimitiveArrayCritical(blockData, arrayData, NULL);
+            env->ReleasePrimitiveArrayCritical(blockData, arrayData, 0);
         }
     }
 
     return result;
 }
 
-JNIEXPORT jintArray JNICALL Java_com_pixy_PixyJni_getFirmwareVersion
-        (JNIEnv *env, jclass obj) {
-    uint16_t* result = (uint16_t*) malloc(4 * sizeof(uint16_t));
-    if (NULL == result) {
-        return NULL;// TODO: HANDLE MEMORY ERROR
-    }
+JNIEXPORT jint JNICALL Java_com_pixy_PixyJni_getFirmwareVersion
+        (JNIEnv *env, jclass obj, jintArray versionData) {
+    uint16_t major;
+    uint16_t minor;
+    uint16_t build;
+    int result = pixy_get_firmware_version(&major, &minor, &build);
 
-    result[0] = pixy_get_firmware_version(&result[1], &result[2], &result[3]);
-    jintArray jniArray = env->NewIntArray(4);
-    if (NULL == jniArray) {
-        free(result);
-        return NULL;// TODO: HANDLE MEMORY ERROR
-    }
+    jint* arrayData = (jint*) env->GetPrimitiveArrayCritical(versionData, NULL);
 
-    env->SetIntArrayRegion(jniArray, 0, 4, (jint*) result);
-    free(result);
+    arrayData[0] = (jint) major;
+    arrayData[1] = (jint) minor;
+    arrayData[2] = (jint) build;
 
-    return jniArray;
+    env->ReleasePrimitiveArrayCritical(versionData, arrayData, 0);
+
+    return (jint) result;
 }
 
 JNIEXPORT jint JNICALL Java_com_pixy_PixyJni_ledSetRgb

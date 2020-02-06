@@ -46,9 +46,10 @@ public class Pixy implements AutoCloseable {
     }
 
     public Version getFirmwareVersion() {
-        int[] result = PixyJni.getFirmwareVersion();
-        PixyResult.throwIfError(result[0]);
-        return new Version(result[0], result[1], result[2]);
+        int[] versionData = new int[3];
+        int result = PixyJni.getFirmwareVersion(versionData);
+        PixyResult.throwIfError(result);
+        return new Version(versionData[0], versionData[1], versionData[2]);
     }
 
     public boolean hasNewBlocks() {

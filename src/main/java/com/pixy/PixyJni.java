@@ -5,7 +5,7 @@ public class PixyJni {
     public static native int init();
     public static native void close();
 
-    public static native int[] getFirmwareVersion();
+    public static native int getFirmwareVersion(int[] versionInfo);
 
     public static native int areBlocksNew();
     public static native int getBlocks(int maxBlocks, int[][] dataArray);
