@@ -9,6 +9,7 @@ public enum PixyResult {
     ERROR_INVALID_PARAMETER(-150),
     ERROR_CHIRP(-151),
     ERROR_INVALID_COMMAND(-152),
+    ERROR_JNI_MEMORY_ALLOCATION(-1001),
     UNKNOWN_ERROR(Integer.MIN_VALUE)
     ;
     private final int mErrorCode;

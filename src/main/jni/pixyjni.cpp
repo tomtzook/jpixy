@@ -2,6 +2,8 @@
 #include <malloc.h>
 #include "pixy.h"
 
+#define ERROR_JNI_MEMORY_ALLOCATION (-1001)
+
 extern "C" {
 
 JNIEXPORT jint JNICALL Java_com_pixy_PixyJni_init
@@ -23,7 +25,7 @@ JNIEXPORT jint JNICALL Java_com_pixy_PixyJni_getBlocks
         (JNIEnv *env, jclass obj, jint maxBlocks, jobjectArray data) {
     struct Block* blocks = (struct Block*) malloc(maxBlocks * sizeof(Block));
     if (NULL == blocks) {
-        return NULL; // TODO: HANDLE OUT OF MEMORY
+        return ERROR_JNI_MEMORY_ALLOCATION;
     }
 
     jint result = (jint) pixy_get_blocks((uint16_t) maxBlocks, blocks);
