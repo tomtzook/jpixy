@@ -47,6 +47,7 @@ JNIEXPORT jint JNICALL Java_com_pixy_PixyJni_getBlocks
         }
     }
 
+    free(blocks);
     return result;
 }
 
