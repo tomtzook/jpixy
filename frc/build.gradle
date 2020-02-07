@@ -1,0 +1,41 @@
+plugins {
+    id 'java-library'
+}
+
+group GROUP
+version VERSION
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+}
+
+jar {
+    archiveBaseName.set('pixy')
+
+    archiveFileName.set("${archiveBaseName.get()}.${archiveExtension.get()}")
+    destinationDirectory.set(project.buildDir)
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    archiveBaseName.set(project.name)
+    archiveClassifier.set('sources')
+
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    archiveBaseName.set(project.name)
+    archiveClassifier.set('javadoc')
+
+    from javadoc.destinationDir
+}
+
+apply from: rootProject.file('cmake.gradle')
+
+tasks.clean.dependsOn tasks.deleteBuildDirectory
+tasks.build.dependsOn tasks.buildNatives
