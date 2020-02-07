@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC   -shared -Wl,-soname,libpixyjni.so -o libpixyjni.so CMakeFiles/pixyjni.dir/main/jni/pixyjni.cpp.o -lpixyusb -lboost_thread -lboost_system -lboost_chrono -lboost_date_time -lboost_atomic -lpthread -lusb-1.0 

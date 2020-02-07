@@ -1,0 +1,3 @@
+/home/tomtzook/projects/jpixy/pixyusb/build/cmake/CMakeFiles/rebuild_cache.dir
+/home/tomtzook/projects/jpixy/pixyusb/build/cmake/CMakeFiles/pixyjni.dir
+/home/tomtzook/projects/jpixy/pixyusb/build/cmake/CMakeFiles/edit_cache.dir
